@@ -1,0 +1,53 @@
+version: "3.7"
+services:
+  # db:
+  #   image: postgres:15
+  #   container_name: db_app
+  #   command: -p 5435
+  #   expose:
+  #     - 5435
+  #   env_file:
+  #     - .env
+
+  # redis:
+  #   image: redis:latest
+  #   container_name: redis_app
+  #   command: --port 5370
+  #   expose:
+  #     - 5370
+
+  app:
+    build:
+      context: .
+    env_file:
+      - .env
+    container_name: plannshare_app
+    command: ["/plannshare_api/docker/app.sh"]
+    ports:
+      - 9999:8000
+    # depends_on:
+    #   - db
+    #   - redis
+    
+  # celery:
+  #   build:
+  #     context: .
+  #   env_file:
+  #     - .env
+  #   container_name: celery_app
+  #   command: ["/plannshare_api/docker/celery.sh", "celery"]
+  #   depends_on:
+  #     - redis
+
+  # flower:
+  #   build:
+  #     context: .
+  #   env_file:
+  #     - .env
+  #   container_name: flower_app
+  #   command: ["/plannshare_api/docker/celery.sh", "flower"]
+  #   depends_on:
+  #     - redis
+  #     - celery
+  #   ports:
+  #     - 8888:5555
